@@ -1,0 +1,20 @@
+Package: ggconc
+Type: Package
+Title: Plot concentration curves
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Sarah", "Lotspeich",
+      email = "lotspes@wfu.edu",
+      role = c("aut", "cre")
+    )
+  )
+Description: More about what it does (maybe more than one line).
+    Continuation lines should be indented.
+Imports: dplyr,
+    ggplot2, 
+    scales
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
