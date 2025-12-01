@@ -24,7 +24,7 @@ make_conc_data = function(data, outcome_var, rank_var, rank_ascend = TRUE,
     # Group by round_rank_var and calculate counts/sum of health per value
     data = data |>
       dplyr::group_by(round_rank_var) |>
-      dplyr::summarize(num = n(),
+      dplyr::summarize(num = dplyr::n(),
                        sum_health = sum({{outcome_var}}))
     # If ordering descendingly, negate round_rank_var
     if (!rank_ascend) {
