@@ -59,7 +59,6 @@ StatConcentration <-
 
                    compute_group = function(data, scales, rank_ascend = TRUE,
                                             round_rank = NULL, na.rm = FALSE) {
-                     # simple NA handling
                      if (na.rm) {
                        data <- data[complete.cases(data[, c("x", "y")]), , drop = FALSE]
                      } else {
@@ -71,17 +70,14 @@ StatConcentration <-
 
                      if (nrow(data) == 0) return(data.frame(x = numeric(0), y = numeric(0)))
 
-                     # optionally round the rank variable
                      if (!is.null(round_rank)) {
                        rr <- round(data$x, digits = round_rank)
                      } else {
                        rr <- data$x
                      }
 
-                     # make grouping keys (use character keys for split/tapply)
                      keys <- as.character(rr)
 
-                     # robust aggregation (scalar results)
                      counts <- tapply(data$y, keys, length)
                      sums   <- tapply(data$y, keys, sum)
 
@@ -92,11 +88,9 @@ StatConcentration <-
                        stringsAsFactors = FALSE
                      )
 
-                     # try coerce grouping key back to numeric for ordering if possible
                      rr_num <- suppressWarnings(as.numeric(agg$round_rank_var))
                      if (!any(is.na(rr_num))) agg$round_rank_var <- rr_num
 
-                     # order / invert if needed
                      if (is.numeric(agg$round_rank_var)) {
                        if (!rank_ascend) agg$round_rank_var <- -agg$round_rank_var
                        agg <- agg[order(agg$round_rank_var), , drop = FALSE]
