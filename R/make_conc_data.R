@@ -7,11 +7,18 @@
 #' @param rank_ascend logical, if \code{TRUE} (the default) then rows are ranked from smallest to largest values of \code{rank_var}
 #' @param round_rank (optional) numeric, use to round \code{rank_var} before ordering and grouping. If \code{NULL} (the default), no rounding is done.
 #' @param group_var (optional) variable name of a grouping variables, to be passed through to \code{dplyr} (so no quotation marks)
+#' @param na.rm logical, if \code{TRUE} (the default), then rows of \code{data} where \code{outcome_var} and/or \code{rank_var} is missing are removed
 #' @return A \code{data.frame} is returned:
 #' \item{delta}{Estimated average treatmentf effect on the primary outcome.}
 #' @export
 make_conc_data = function(data, outcome_var, rank_var, rank_ascend = TRUE,
-                          round_rank = NULL, group_var = NULL) {
+                          round_rank = NULL, group_var = NULL, na.rm = TRUE) {
+  if (na.rm) {
+    data = data |>
+      dplyr::select({{outcome_var}}, {{rank_var}}) |>
+      dplyr::filter(complete.cases(.))
+  }
+
   make_subgroup_conc_data = function(data, incl_group = NULL) {
     # Round rank_var based on round_rank
     if (!is.null(round_rank)) {
