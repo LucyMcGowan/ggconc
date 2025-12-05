@@ -25,6 +25,8 @@ pak::pak("sarahlotspeich/ggconc")
 
 ## Example
 
+Below is a simple concentration curve using `geom_concentration()`:
+
 ``` r
 library(ggconc)
 library(ggplot2)
@@ -32,9 +34,32 @@ ggplot(food_dat, aes(x = INCOME, y = X_full)) +
    geom_concentration(rank_ascend = TRUE, round_rank = 0) +
    geom_abline(slope = 1, intercept = 0, linetype = 2) +
    coord_equal() +
-   theme_minimal()
+   theme_minimal() +
+  labs(x = "Cumulative Proportion of Observations\n(Ranked by Income)",
+       y = "Cumulative Proportion of Driving Distance")
 #> Warning: Removed 2 rows containing non-finite outside the scale range
 #> (`stat_concentration()`).
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+Here is an example of multiple concentration curves with grouped data:
+
+``` r
+food_dat$income_group = cut(food_dat$INCOME, 
+                            breaks = quantile(food_dat$INCOME, probs = c(0, 0.33, 0.67, 1), na.rm = TRUE),
+                            labels = c("Low", "Medium", "High"),
+                            include.lowest = TRUE)
+
+ggplot(food_dat, aes(x = INCOME, y = X_full, color = income_group)) +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, color = "black") +
+  geom_concentration(rank_ascend = TRUE, round_rank = 0, linewidth = 1.2) +
+  coord_equal() +
+  labs(x = "Cumulative Proportion of Observations\n(Ranked by Income)",
+       y = "Cumulative Proportion of Driving Distance",
+       color = "Income Group")
+#> Warning: Removed 2 rows containing non-finite outside the scale range
+#> (`stat_concentration()`).
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
