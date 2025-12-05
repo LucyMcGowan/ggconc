@@ -14,8 +14,12 @@ Authors@R: c(
        role = c("aut", "cre"),
        comment = c(ORCID = "0000-0002-6983-2759"))
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
+Description: Tools for creating concentration curves to visualize inequality 
+    and disproportionate distributions. Concentration curves plot the cumulative 
+    proportion of a health outcome or resource against the cumulative proportion 
+    of a population ranked by some variable of interest. The package 
+    provides a ggplot2 geom for easy integration with existing workflows and 
+    functions for data preprocessing and concentration index calculation.
 Imports: dplyr,
     ggplot2, 
     scales
